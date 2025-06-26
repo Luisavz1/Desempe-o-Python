@@ -10,16 +10,18 @@ def registrar_estudiante():
         print("Estudiante ya registrado.")
         return
     nombre = input("Nombre: ")
-    try:
-        edad = int(input("Edad: "))
-        notas = []
-        for i in range(3):
-            nota = float(input(f"Nota {i+1}: "))
-            notas.append(nota)
-        estudiantes[id_est] = {"nombre": nombre, "edad": edad, "notas": notas}
-        print("Estudiante registrado correctamente.")
-    except ValueError:
-        print("Entrada inválida.")
+    while True:
+        try:
+            edad = int(input("Edad: "))
+            notas = []
+            for i in range(3):
+                nota = float(input(f"Nota {i+1}: "))
+                notas.append(nota)
+            estudiantes[id_est] = {"nombre": nombre, "edad": edad, "notas": notas}
+            print("Estudiante registrado correctamente.")
+            break
+        except ValueError:
+            print("Entrada inválida.")
 
 # Consultar datos de un estudiante
 def consultar_estudiante():
