@@ -3,58 +3,62 @@
 # Diccionario para guardar los datos de los estudiantes
 estudiantes = {}
 
-# Registrar un nuevo estudiante
-def registrar_estudiante():
-    id_est = input("Número de identificación: ")
-    if id_est in estudiantes:
-        print("Estudiante ya registrado.")
-        return
-    nombre = input("Nombre: ")
+def validacion(texto, tipo_de_dato = str):
     while True:
         try:
-            edad = int(input("Edad: "))
-            notas = []
-            for i in range(3):
-                nota = float(input(f"Nota {i+1}: "))
-                notas.append(nota)
-            estudiantes[id_est] = {"nombre": nombre, "edad": edad, "notas": notas}
-            print("Estudiante registrado correctamente.")
-            break
+            texto_ingresado = tipo_de_dato(input(texto))
+            return texto_ingresado
         except ValueError:
             print("Entrada inválida.")
 
+# Registrar un nuevo estudiante
+def registrar_estudiante():
+    id_est = validacion("Número de identificación: ", int)
+    id_est = str(id_est)
+    if id_est in estudiantes:
+        print("Estudiante ya registrado.")
+        return
+    nombre = validacion("Nombre: ")
+    edad = validacion("Edad: ", int)
+
+    notas = []
+    # 0, 1, 2, 3
+    for i in range(3):
+        nota = validacion(f"Nota: {i+1}", float)
+        notas.append(nota)
+    estudiantes[id_est] = {"nombre": nombre, "edad": edad, "notas": notas}
+    print("Estudiante registrado correctamente.")
+
+
 # Consultar datos de un estudiante
 def consultar_estudiante():
-    id_est = input("ID del estudiante: ")
+    id_est = str(validacion("ID del estudiante: ", int))
     if id_est in estudiantes:
         datos = estudiantes[id_est]
         promedio = sum(datos["notas"]) / len(datos["notas"])
         print("Nombre:", datos["nombre"])
         print("Edad:", datos["edad"])
         print("Notas:", datos["notas"])
-        print("Promedio:", round(promedio, 2))
+        print("Promedio:", round(promedio, 1))
     else:
         print("Estudiante no encontrado.")
 
 # Actualizar notas de un estudiante
 def actualizar_notas():
-    id_est = input("ID del estudiante: ")
+    id_est = str(validacion("ID del estudiante: ", int))
     if id_est in estudiantes:
-        try:
-            nuevas_notas = []
-            for i in range(3):
-                nota = float(input(f"Nueva nota {i+1}: "))
-                nuevas_notas.append(nota)
-            estudiantes[id_est]["notas"] = nuevas_notas
-            print("Notas actualizadas.")
-        except ValueError:
-            print("Entrada inválida.")
+        nuevas_notas = []
+        for i in range(3):
+            nota = validacion(f"Nueva nota {i+1}: ", float)
+            nuevas_notas.append(nota)
+        estudiantes[id_est]["notas"] = nuevas_notas
+        print("Notas actualizadas.")
     else:
         print("Estudiante no encontrado.")
 
 # Eliminar un estudiante
 def eliminar_estudiante():
-    id_est = input("ID del estudiante a eliminar: ")
+    id_est = validacion("ID del estudiante a eliminar: ", int)
     if id_est in estudiantes:
         del estudiantes[id_est]
         print("Estudiante eliminado.")
@@ -73,26 +77,26 @@ def ver_todos():
 # Menú principal
 def menu():
     while True:
-        print("\nMenú")
-        print("1. Registrar estudiante")
-        print("2. Consultar estudiante")
-        print("3. Actualizar notas")
-        print("4. Eliminar estudiante")
-        print("5. Ver todos los estudiantes")
-        print("6. Salir")
-        opcion = input("Seleccione una opción: ")
+        print("\nMenú\n"
+            "1. Registrar estudiante \n"\
+            "2. Consultar estudiante \n"\
+            "3. Actualizar notas\n"\
+            "4. Eliminar estudiante \n"\
+            "5. Ver todos los estudiantes\n"\
+            "6. Salir")
+        opcion = validacion("Seleccione una opciòn", int)
 
-        if opcion == "1":
+        if opcion == 1:
             registrar_estudiante()
-        elif opcion == "2":
+        elif opcion == 2:
             consultar_estudiante()
-        elif opcion == "3":
+        elif opcion == 3:
             actualizar_notas()
-        elif opcion == "4":
+        elif opcion == 4:
             eliminar_estudiante()
-        elif opcion == "5":
+        elif opcion == 5:
             ver_todos()
-        elif opcion == "6":
+        elif opcion == 6:
             print("Programa finalizado.")
             break
         else:
