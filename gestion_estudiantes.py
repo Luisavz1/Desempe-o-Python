@@ -1,8 +1,9 @@
 # Gestión de Estudiantes 
 
-# Diccionario para guardar los datos de los estudiantes
+# Diccionario principal para almacenar los estudiantes
 estudiantes = {}
 
+# Función para validar entradas según tipo (int, float, str)
 def validacion(texto, tipo_de_dato = str):
     while True:
         try:
@@ -11,10 +12,10 @@ def validacion(texto, tipo_de_dato = str):
         except ValueError:
             print("Entrada inválida.")
 
-# Registrar un nuevo estudiante
+# Registrar un nuevo estudiante si no existe
 def registrar_estudiante():
     id_est = validacion("Número de identificación: ", int)
-    id_est = str(id_est)
+    id_est = str(id_est)  # Se convierte en string para usar como clave
     if id_est in estudiantes:
         print("Estudiante ya registrado.")
         return
@@ -22,15 +23,15 @@ def registrar_estudiante():
     edad = validacion("Edad: ", int)
 
     notas = []
-    # 0, 1, 2, 3
-    for i in range(3):
+    for i in range(3):  # Se piden 3 notas
         nota = validacion(f"Nota: {i+1}", float)
         notas.append(nota)
+    
+    # Se almacena la información en el diccionario
     estudiantes[id_est] = {"nombre": nombre, "edad": edad, "notas": notas}
     print("Estudiante registrado correctamente.")
 
-
-# Consultar datos de un estudiante
+# Consultar estudiante por ID e imprimir su información
 def consultar_estudiante():
     id_est = str(validacion("ID del estudiante: ", int))
     if id_est in estudiantes:
@@ -43,7 +44,7 @@ def consultar_estudiante():
     else:
         print("Estudiante no encontrado.")
 
-# Actualizar notas de un estudiante
+# Actualizar las notas de un estudiante
 def actualizar_notas():
     id_est = str(validacion("ID del estudiante: ", int))
     if id_est in estudiantes:
@@ -56,7 +57,7 @@ def actualizar_notas():
     else:
         print("Estudiante no encontrado.")
 
-# Eliminar un estudiante
+# Eliminar estudiante del diccionario
 def eliminar_estudiante():
     id_est = validacion("ID del estudiante a eliminar: ", int)
     if id_est in estudiantes:
@@ -65,7 +66,7 @@ def eliminar_estudiante():
     else:
         print("Estudiante no encontrado.")
 
-# Ver todos los estudiantes registrados
+# Mostrar lista de todos los estudiantes con su promedio
 def ver_todos():
     if not estudiantes:
         print("No hay estudiantes registrados.")
@@ -74,17 +75,18 @@ def ver_todos():
         promedio = sum(datos["notas"]) / len(datos["notas"])
         print(f"ID: {id_est} | Nombre: {datos['nombre']} | Promedio: {round(promedio, 2)}")
 
-# Menú principal
+# Menú principal del programa
 def menu():
     while True:
         print("\nMenú\n"
-            "1. Registrar estudiante \n"\
-            "2. Consultar estudiante \n"\
-            "3. Actualizar notas\n"\
-            "4. Eliminar estudiante \n"\
-            "5. Ver todos los estudiantes\n"\
+            "1. Registrar estudiante \n"
+            "2. Consultar estudiante \n"
+            "3. Actualizar notas\n"
+            "4. Eliminar estudiante \n"
+            "5. Ver todos los estudiantes\n"
             "6. Salir")
-        opcion = validacion("Seleccione una opciòn", int)
+        
+        opcion = validacion("Seleccione una opción: ", int)
 
         if opcion == 1:
             registrar_estudiante()
